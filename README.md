@@ -3,6 +3,8 @@ Menubar tab counter for Safari on macOS.
 
 "T" = tabs, "W" = windows. Just a simple report of your Safari tab/window situation on your Mac. Sometimes things get out of control and you don't even realize the extent of the problem. Updates every 30 seconds.
 
+Probably could just make a system service or Safari plugin to do this, but this continues to work even if Safari isn't running.
+
 ## Installation
 There are binaries to download, or you can build and run via Xcode. Works back to macOS 10.14 (Catalina).
 
