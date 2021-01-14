@@ -66,7 +66,7 @@ import Cocoa
 	}
 	
 	@IBAction func tabometer(_ sender: Any) {
-		if let url = URL(string: "https://github.com/hyperjeff/catalog") {
+		if let url = URL(string: "https://github.com/hyperjeff/tabometer") {
 			NSWorkspace.shared.open(url)
 		}
 	}
