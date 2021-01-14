@@ -1,8 +1,8 @@
 import Cocoa
 
 class TabView: NSView {
-	var tabCount: Int = -1
-	var windowCount: Int = -1
+	var tabCount: Int?
+	var windowCount: Int?
 	
 	var top: NSTextField!
 	var bottom: NSTextField!
@@ -38,9 +38,14 @@ class TabView: NSView {
 	}
 	
 	func updateCounts() {
-		top.stringValue = (tabCount < 0) ? "---" : "\(tabCount) T"
-		bottom.stringValue = (windowCount < 0) ? "---" : "\(windowCount) W"
-		
+		if let tc = tabCount, let wc = windowCount {
+			top.stringValue = "\(tc) T"
+			bottom.stringValue = "\(wc) W"
+		}
+		else {
+			top.stringValue = "---"
+			bottom.stringValue = "---"
+		}
 	}
 	
 	required init?(coder: NSCoder) {
