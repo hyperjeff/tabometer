@@ -12,6 +12,7 @@ _BUT_, because of sandboxing, currently there is a hack to make this all work. T
 This is a super minimal project. ~100 lines of code. But it could go into a lot of decent directions without bloating too much. Here are some ideas, in case you'd like to contribute to the project:
 
 * Add some better instructions in this readme or the wiki.
+* Have it start/stop the background helper script on its own.
 * Find a way to get around the sandbox limitation and directly examine the Safari session file.
 * Talk to other instances living on the local network to give an overall measure of the tab counts.
 * Figure out a way to find out the entire current tab situation across one's whole iCloud account.
