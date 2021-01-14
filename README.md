@@ -1,7 +1,7 @@
 # tabometer ![Tabometer Screenshot](https://github.com/hyperjeff/tabometer/blob/main/95-20.png)
-Menubar tab counter for macOS.
+Menubar tab counter for Safari on macOS.
 
-"T" = tabs, "W" = windows. Just a simple report of the situation on your Mac. Sometimes things get out of control and you don't even realize the extent of the problem. Updates every 30 seconds.
+"T" = tabs, "W" = windows. Just a simple report of your Safari tab/window situation on your Mac. Sometimes things get out of control and you don't even realize the extent of the problem. Updates every 30 seconds.
 
 ## Installation
 There are binaries to download, or you can build and run via Xcode. Works back to macOS 10.14 (Catalina).
