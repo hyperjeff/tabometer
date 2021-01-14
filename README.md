@@ -2,9 +2,9 @@
 Menubar tab counter for macOS
 
 ## Installation
-No binaries available currently. Build and run via Xcode. Works back to macOS 10.14 (Catalina).
+There are binaries to download, or you can build and run via Xcode. Works back to macOS 10.14 (Catalina).
 
-But, because of sandboxing, currently there is a hack to make this all work. There is a `tabometer.sh` script that needs to be installed somewhere (`/usr/local/bin/` or `~/bin` etc) and make it executable (`chmod +x tabometer.sh`) and then run it in the background via Terminal (`tabometer &`). This copies the key file from Safari so that it can be inspected by the Tabometer menu bar app.
+_BUT_, because of sandboxing, currently there is a hack to make this all work. There is a `tabometer.sh` script that needs to be installed somewhere (`/usr/local/bin/` or `~/bin` etc) and make it executable (`chmod +x tabometer.sh`) and then run it in the background via Terminal (`tabometer &`). This copies the key file from Safari so that it can be inspected by the Tabometer menu bar app.
 
 ## Future directions
 This is a super minimal project. ~100 lines of code. But it could go into a lot of decent directions without bloating too much. Here are some ideas, in case you'd like to contribute to the project:
