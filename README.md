@@ -1,5 +1,5 @@
-# tabometer
-![Tabometer Screenshot](https://github.com/hyperjeff/tabometer/blob/main/95-20.png) Menubar tab counter for macOS
+# tabometer ![Tabometer Screenshot](https://github.com/hyperjeff/tabometer/blob/main/95-20.png)
+Menubar tab counter for macOS
 
 ## Installation
 No binaries available currently. Build and run via Xcode. Works back to macOS 10.14 (Catalina).
