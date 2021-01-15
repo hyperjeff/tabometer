@@ -14,7 +14,7 @@ The only small inconvenience about running this app is that the user _must_ sele
 If you want to build from source, just make sure to put in your own bundle identifier and developer team and it should build just fine.
 
 ## Future directions
-This is a super minimal project. ~100 lines of code. But it could go into a lot of decent directions without bloating too much. Here are some ideas, in case you'd like to contribute to the project:
+This is a super minimal project. ~150 lines of code. But it could go into a lot of decent directions without bloating too much. Here are some ideas, in case you'd like to contribute to the project:
 
 * Talk to other instances living on the local network to give an overall measure of the tab counts.
 * Figure out a way to find out the entire current tab situation across one's whole iCloud account.
