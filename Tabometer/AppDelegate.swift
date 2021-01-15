@@ -57,9 +57,6 @@ import Cocoa
 	func setupSessionURL() {
 		let openPanel = NSOpenPanel()
 		openPanel.message = "Select the file ~/Library/Safari/LastSession.plist and press the [Select] button"
-		openPanel.prompt = "Select"
-		openPanel.nameFieldLabel = "test 1"
-		openPanel.backgroundColor = .red
 		openPanel.directoryURL = fileman.urls(for: .libraryDirectory, in: .userDomainMask).first!.appendingPathComponent("Safari").appendingPathComponent("LastSession.plist")
 		openPanel.allowsMultipleSelection = false
 		openPanel.canChooseDirectories = false
