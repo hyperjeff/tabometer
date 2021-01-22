@@ -3,6 +3,8 @@ import Cocoa
 class TabView: NSView {
 	var tabCount: Int?
 	var windowCount: Int?
+	var totalTabCount: Int?
+	var totalWindowCount: Int?
 	
 	var top: NSTextField!
 	var bottom: NSTextField!
@@ -39,8 +41,14 @@ class TabView: NSView {
 	
 	func updateCounts() {
 		if let tc = tabCount, let wc = windowCount {
-			top.stringValue = "\(tc) T"
-			bottom.stringValue = "\(wc) W"
+			if let ttc = totalTabCount, let twc = totalWindowCount {
+				top.stringValue = "\(tc) / \(ttc) T"
+				bottom.stringValue = "\(wc) / \(twc) W"
+			}
+			else {
+				top.stringValue = "\(tc) T"
+				bottom.stringValue = "\(wc) W"
+			}
 		}
 		else {
 			top.stringValue = "---"

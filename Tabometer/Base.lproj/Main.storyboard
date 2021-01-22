@@ -15,6 +15,7 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Tabometer" systemMenu="apple" id="uQy-DD-JDr">
                                     <items>
+                                        <menuItem isSeparatorItem="YES" id="Iao-OY-RVN"/>
                                         <menuItem title="Tabometer!" id="Zak-NC-zWw">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>

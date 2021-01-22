@@ -6,11 +6,13 @@ import Cocoa
 	@IBOutlet weak var quit: NSMenuItem?
 	
 	var statusItem: NSStatusItem?
+	var tabInfoView: TabView!
 	let fileman = FileManager.default
 	var lastSessionURL: URL?
 	var lastSession: LastSession?
 	var timer: Timer?
 	let sessionURLKey = "LastSession.plist"
+	var ubiquitousStore = NSUbiquitousKeyValueStore()
 	
 	override func awakeFromNib() {
 		super.awakeFromNib()
@@ -18,9 +20,9 @@ import Cocoa
 		// Uncomment to reset url when testing
 //		UserDefaults.standard.removeObject(forKey: sessionURLKey)
 
-		statusItem = NSStatusBar.system.statusItem(withLength: 36)
+		statusItem = NSStatusBar.system.statusItem(withLength: 50)
 		
-		let tabInfoView = TabView(frame: NSRect(origin: .zero, size: statusItem!.button!.frame.size))
+		tabInfoView = TabView(frame: NSRect(origin: .zero, size: statusItem!.button!.frame.size))
 		
 		if let menu = menu {
 			statusItem?.menu = menu
@@ -40,13 +42,15 @@ import Cocoa
 			}
 			catch {
 				print(error.localizedDescription)
-				fatalError()
+				UserDefaults.standard.removeObject(forKey: sessionURLKey)
 			}
 		}
 		
 		if !wentOk {
 			setupSessionURL()
 		}
+		
+		NotificationCenter.default.addObserver(self, selector: #selector(updatePerHostInfo), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: nil)
 	}
 	
 	func startTimer() {
@@ -95,6 +99,18 @@ import Cocoa
 			   let tabView = self.statusItem?.button?.subviews.first(where: { view in view is TabView }) as? TabView {
 				lastSession = session
 				
+				// for resetting while debugging:
+//				for key in ubiquitousStore.dictionaryRepresentation.keys {
+//					ubiquitousStore.removeObject(forKey: key)
+//				}
+//				ubiquitousStore.synchronize()
+
+				if let host = Host.current().name {
+					ubiquitousStore.set([session.tabCount, session.windowCount], forKey: massageHostName(host))
+					ubiquitousStore.synchronize()
+					updatePerHostInfo()
+				}
+				
 				tabView.tabCount = session.tabCount
 				tabView.windowCount = session.windowCount
 				tabView.updateCounts()
@@ -104,6 +120,69 @@ import Cocoa
 			UserDefaults.standard.removeObject(forKey: sessionURLKey)
 			setupSessionURL()
 		}
+	}
+	
+	@objc func updatePerHostInfo() {
+		if let menu = menu {
+			let ubiHosts = Set<String>(ubiquitousStore.dictionaryRepresentation.keys)
+			let menuHosts = Set(menu.items
+				.filter { $0.title.contains(":") }
+				.map { String($0.title.split(separator: ":").first!) })
+			
+			var totals = (0, 0)
+			for arrays in ubiHosts.map({ ubiquitousStore.array(forKey: $0) }) {
+				if let counts = arrays,
+				   let tabs = counts.first as? Int,
+				   let windows = counts.last as? Int {
+					totals.0 += tabs
+					totals.1 += windows
+				}
+			}
+			
+			if 0 < totals.0 && 0 < totals.1 {
+				tabInfoView.totalTabCount = totals.0
+				tabInfoView.totalWindowCount = totals.1
+			}
+			
+			let onBoth = ubiHosts.intersection(menuHosts)
+			let newHosts = ubiHosts.subtracting(menuHosts)
+			let oldHosts = menuHosts.subtracting(ubiHosts)
+			
+			for host in oldHosts {
+				if let item = menu.items.first(where: { $0.title.starts(with: "\(host.localizedCapitalized):") }) {
+					menu.removeItem(item)
+				}
+			}
+			
+			for host in onBoth {
+				if let item = menu.items.first(where: { $0.title.starts(with: "\(host.localizedCapitalized):") }),
+				   let counts = ubiquitousStore.array(forKey: host),
+				   let tabs = counts.first,
+				   let windows = counts.last {
+					item.title = "\(host): \(tabs) T, \(windows) W"
+				}
+			}
+			
+			for host in newHosts {
+				if let counts = ubiquitousStore.array(forKey: host),
+				   let tabs = counts.first,
+				   let windows = counts.last {
+					let item = NSMenuItem(title: "\(host.localizedCapitalized): \(tabs) T, \(windows) W", action: nil, keyEquivalent: "")
+					menu.insertItem(item, at: 0)
+				}
+			}
+		}
+	}
+	
+	func massageHostName(_ name: String) -> String {
+		var out = name
+		for ending in [".local"] {
+			if name.hasSuffix(ending) {
+				out = String(name.dropLast(ending.count))
+			}
+		}
+		
+		return out.localizedCapitalized
 	}
 	
 	@IBAction func quit(_ sender: Any) {
