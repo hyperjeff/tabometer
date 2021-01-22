@@ -8,11 +8,14 @@ import Cocoa
 	var statusItem: NSStatusItem?
 	let fileman = FileManager.default
 	var lastSessionURL: URL?
+	var lastSession: LastSession?
 	var timer: Timer?
 	let sessionURLKey = "LastSession.plist"
 	
 	override func awakeFromNib() {
 		super.awakeFromNib()
+		
+		// Uncomment to reset url when testing
 //		UserDefaults.standard.removeObject(forKey: sessionURLKey)
 
 		statusItem = NSStatusBar.system.statusItem(withLength: 36)
@@ -88,30 +91,13 @@ import Cocoa
 	func updateCountInfoFromSafari() {
 		if let url = lastSessionURL,
 		   fileman.fileExists(atPath: url.path) {
-			do {
-				let requiresStop = url.startAccessingSecurityScopedResource()
+			if let session = LastSession(lastSessionURL: url),
+			   let tabView = self.statusItem?.button?.subviews.first(where: { view in view is TabView }) as? TabView {
+				lastSession = session
 				
-				let data = try Data(contentsOf: url)
-				
-				if requiresStop { url.stopAccessingSecurityScopedResource() }
-				
-				if PropertyListSerialization.propertyList(data, isValidFor: .binary) {
-					let pls = try PropertyListSerialization.propertyList(from: data, options: .mutableContainersAndLeaves, format: nil)
-					if let d = pls as? [String : Any],
-					   let windows = d["SessionWindows"] as? [[String : Any]] {
-						let tabs = windows.map { w in (w["TabStates"] as! [[String : Any]]).count }.reduce(0, +)
-						
-						if let tabView = self.statusItem?.button?.subviews.first(where: { view in view is TabView }) as? TabView {
-							tabView.tabCount = tabs
-							tabView.windowCount = windows.count
-							tabView.updateCounts()
-						}
-					}
-				}
-			}
-			catch {
-				print(error.localizedDescription)
-				fatalError()
+				tabView.tabCount = session.tabCount
+				tabView.windowCount = session.windowCount
+				tabView.updateCounts()
 			}
 		}
 		else {
