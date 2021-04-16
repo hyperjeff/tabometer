@@ -20,7 +20,7 @@ import Cocoa
 		// Uncomment to reset url when testing
 //		UserDefaults.standard.removeObject(forKey: sessionURLKey)
 
-		statusItem = NSStatusBar.system.statusItem(withLength: 50)
+		statusItem = NSStatusBar.system.statusItem(withLength: 60)
 		
 		tabInfoView = TabView(frame: NSRect(origin: .zero, size: statusItem!.button!.frame.size))
 		
