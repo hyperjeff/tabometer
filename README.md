@@ -1,6 +1,11 @@
 # tabometer ![Tabometer Screenshot](https://github.com/hyperjeff/tabometer/blob/main/95-20.png)
 Menubar tab counter for Safari on macOS.
 
+## _IMPORTANT:_
+As of Safari 15.0, the `LastSession.plist` file, which is the entire basis of this little app, stopped being used by Safari. (You may have noticed that many people lost all the tabs that were previously opened when they updated it.) So this app currently only works for Macs on Safari 14.x and lower.
+
+---
+
 "T" = tabs, "W" = windows. Just a simple report of your Safari tab/window situation on your Mac. Sometimes things get out of control and you don't even realize the extent of the problem. Updates every 30 seconds.
 
 Probably could just make a system service or Safari plugin to do this, but this continues to work even if Safari isn't running.
